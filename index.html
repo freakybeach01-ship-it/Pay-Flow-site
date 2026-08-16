@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Credential Security Lab</title>
+  <title>Security Awareness Lab</title>
 
   <style>
     * {
@@ -14,145 +14,243 @@
     body {
       margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #111827;
-      padding: 20px;
+      background: #0b1220;
+      color: #111827;
+      padding: 24px 16px;
     }
 
-    .box {
+    .container {
       width: 100%;
-      max-width: 390px;
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0,0,0,.3);
+      max-width: 430px;
+      margin: auto;
     }
 
-    h1 {
+    .header {
       text-align: center;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .shield {
+      font-size: 45px;
       margin-bottom: 8px;
     }
 
-    .lab {
-      text-align: center;
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .header p {
+      color: #aab4c5;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #e0f2fe;
+      color: #075985;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 21px;
+    }
+
+    .description {
       color: #6b7280;
-      margin-bottom: 25px;
+      line-height: 1.5;
+      font-size: 14px;
+      margin-bottom: 22px;
     }
 
     label {
       display: block;
-      margin: 12px 0 6px;
+      margin: 14px 0 7px;
       font-weight: bold;
+      font-size: 14px;
     }
 
     input {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       border: 1px solid #d1d5db;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
     }
 
     button {
       width: 100%;
-      margin-top: 20px;
-      padding: 13px;
       border: 0;
-      border-radius: 8px;
-      background: #111827;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 18px;
+      background: #2563eb;
       color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 12px;
+      line-height: 1.55;
+    }
+
     .warning {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
       background: #fef3c7;
       color: #92400e;
-      line-height: 1.5;
-      display: none;
     }
 
     .success {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
       background: #dcfce7;
       color: #166534;
-      line-height: 1.5;
-      display: none;
     }
 
-    .small {
+    .tips {
       margin-top: 20px;
+      padding: 18px;
+      background: #f8fafc;
+      border-radius: 14px;
+    }
+
+    .tips h3 {
+      margin-top: 0;
+      font-size: 16px;
+    }
+
+    .tips ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    .tips li {
+      margin-bottom: 8px;
+      color: #475569;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .footer {
       text-align: center;
-      color: #6b7280;
-      font-size: 12px;
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 18px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
+  <div class="container">
 
-    <h1>🔐 Security Lab</h1>
-
-    <p class="lab">
-      Credential-phishing awareness simulation
-    </p>
-
-    <form id="loginForm">
-
-      <label for="username">Dummy Username</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="Enter a test username"
-        autocomplete="off"
-        required
-      >
-
-      <label for="password">Dummy Password</label>
-      <input
-        id="password"
-        type="password"
-        placeholder="Use a fake password"
-        autocomplete="off"
-        required
-      >
-
-      <button type="submit">
-        Simulate Login
-      </button>
-
-    </form>
-
-    <div class="warning" id="warning">
-      ⚠️ <strong>Simulation triggered.</strong><br><br>
-      A real phishing page could attempt to steal these credentials.
-      Never enter your real password into an unfamiliar website.
+    <div class="header">
+      <div class="shield">🛡️</div>
+      <h1>Security Awareness Lab</h1>
+      <p>Learn how credential-phishing attacks can work in a safe training environment.</p>
     </div>
 
-    <div class="success" id="success">
-      ✅ <strong>Training complete.</strong><br><br>
-      The simulator did not save, transmit, or reveal your password.
-      Only the fact that a test submission occurred is displayed.
+    <div class="card">
+
+      <span class="badge">TRAINING SIMULATION</span>
+
+      <h2>Credential Safety Test</h2>
+
+      <p class="description">
+        Use only fictional information below. This simulator does not transmit,
+        save, or reveal passwords.
+      </p>
+
+      <form id="trainingForm">
+
+        <label for="username">Dummy Username</label>
+
+        <input
+          id="username"
+          type="text"
+          placeholder="Example: test_user"
+          autocomplete="off"
+          required
+        >
+
+        <label for="password">Dummy Password</label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Use a fake password"
+          autocomplete="off"
+          required
+        >
+
+        <button type="submit">
+          Run Safe Simulation
+        </button>
+
+      </form>
+
+      <div class="message warning" id="warning">
+        ⚠️ <strong>Simulation triggered.</strong><br><br>
+        A malicious website could attempt to capture credentials entered
+        into a fake login form. Never enter your real password into an
+        unfamiliar website.
+      </div>
+
+      <div class="message success" id="success">
+        ✅ <strong>Training completed.</strong><br><br>
+        This simulator did not save, transmit, or reveal your password.
+        The submission was processed locally for demonstration purposes.
+      </div>
+
+      <div class="tips">
+
+        <h3>🔎 How to spot phishing</h3>
+
+        <ul>
+          <li>Check the website address carefully.</li>
+          <li>Be suspicious of unexpected login requests.</li>
+          <li>Never share passwords through messages or unknown websites.</li>
+          <li>Look for unusual spelling, links, or urgent requests.</li>
+          <li>Use multi-factor authentication whenever possible.</li>
+        </ul>
+
+      </div>
+
     </div>
 
-    <p class="small">
-      LOCAL TRAINING ONLY • USE DUMMY CREDENTIALS
-    </p>
+    <div class="footer">
+      LOCAL SECURITY TRAINING • USE DUMMY CREDENTIALS ONLY
+    </div>
 
   </div>
 
   <script>
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("trainingForm");
     const warning = document.getElementById("warning");
     const success = document.getElementById("success");
 
@@ -161,7 +259,7 @@
 
       /*
         SECURITY DESIGN:
-        We intentionally never read the password value.
+        The password value is intentionally never read.
         Nothing is sent to a server.
         Nothing is stored in localStorage, cookies, or files.
       */
@@ -174,4 +272,4 @@
   </script>
 
 </body>
-  </html>
+          </html>
