@@ -14,55 +14,54 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: #0b1220;
+      background: #08111f;
       color: #111827;
-      padding: 24px 16px;
+      padding: 20px 15px;
     }
 
     .container {
-      width: 100%;
-      max-width: 430px;
+      max-width: 450px;
       margin: auto;
     }
 
-    .header {
-      text-align: center;
+    .hero {
       color: white;
-      margin-bottom: 20px;
+      text-align: center;
+      padding: 20px 10px 25px;
     }
 
     .shield {
-      font-size: 45px;
-      margin-bottom: 8px;
+      font-size: 48px;
     }
 
-    .header h1 {
-      margin: 0;
+    .hero h1 {
+      margin: 8px 0;
       font-size: 28px;
     }
 
-    .header p {
-      color: #aab4c5;
-      margin-top: 8px;
+    .hero p {
+      color: #aab7ca;
       line-height: 1.5;
+      margin: 0;
     }
 
     .card {
       background: white;
       border-radius: 20px;
-      padding: 26px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.28);
     }
 
     .badge {
       display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
       padding: 6px 10px;
       border-radius: 20px;
-      background: #e0f2fe;
-      color: #075985;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     h2 {
@@ -70,11 +69,45 @@
       font-size: 21px;
     }
 
-    .description {
-      color: #6b7280;
-      line-height: 1.5;
+    .text {
+      color: #64748b;
       font-size: 14px;
-      margin-bottom: 22px;
+      line-height: 1.55;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 15px 0 7px;
+    }
+
+    .progress {
+      height: 9px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 33%;
+      height: 100%;
+      background: #2563eb;
+      border-radius: 20px;
+    }
+
+    .objectives {
+      display: grid;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .objective {
+      padding: 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 13px;
     }
 
     label {
@@ -132,35 +165,33 @@
       color: #166534;
     }
 
-    .tips {
-      margin-top: 20px;
-      padding: 18px;
+    .tip {
+      padding: 13px;
       background: #f8fafc;
-      border-radius: 14px;
-    }
-
-    .tips h3 {
-      margin-top: 0;
-      font-size: 16px;
-    }
-
-    .tips ul {
-      padding-left: 20px;
-      margin-bottom: 0;
-    }
-
-    .tips li {
-      margin-bottom: 8px;
-      color: #475569;
+      border-radius: 10px;
+      margin-top: 10px;
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.5;
+    }
+
+    .completion {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #eff6ff;
+      border-radius: 14px;
+      margin-top: 18px;
+    }
+
+    .completion-icon {
+      font-size: 40px;
     }
 
     .footer {
       text-align: center;
-      color: #94a3b8;
+      color: #8b9bb0;
       font-size: 11px;
-      margin-top: 18px;
+      padding: 10px;
     }
   </style>
 </head>
@@ -169,21 +200,62 @@
 
   <div class="container">
 
-    <div class="header">
+    <section class="hero">
       <div class="shield">🛡️</div>
       <h1>Security Awareness Lab</h1>
-      <p>Learn how credential-phishing attacks can work in a safe training environment.</p>
+      <p>
+        Learn how to recognize credential-phishing attempts
+        through safe simulations.
+      </p>
+    </section>
+
+    <div class="card">
+
+      <span class="badge">WELCOME</span>
+
+      <h2>Cybersecurity Training</h2>
+
+      <p class="text">
+        This learning lab teaches basic credential safety and
+        phishing awareness using a completely local demonstration.
+      </p>
+
+      <div class="progress-label">
+        <span>Training progress</span>
+        <span id="progressText">0%</span>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="objectives">
+
+        <div class="objective">
+          🛡️ Understand credential safety
+        </div>
+
+        <div class="objective">
+          🔎 Identify common phishing warning signs
+        </div>
+
+        <div class="objective">
+          🔐 Learn safer password habits
+        </div>
+
+      </div>
+
     </div>
 
     <div class="card">
 
-      <span class="badge">TRAINING SIMULATION</span>
+      <span class="badge">MODULE 01</span>
 
-      <h2>Credential Safety Test</h2>
+      <h2>Credential Safety Simulation</h2>
 
-      <p class="description">
-        Use only fictional information below. This simulator does not transmit,
-        save, or reveal passwords.
+      <p class="text">
+        Use fictional information only. The simulator does not
+        send or store credentials.
       </p>
 
       <form id="trainingForm">
@@ -216,35 +288,71 @@
 
       <div class="message warning" id="warning">
         ⚠️ <strong>Simulation triggered.</strong><br><br>
-        A malicious website could attempt to capture credentials entered
-        into a fake login form. Never enter your real password into an
-        unfamiliar website.
+        A malicious website could attempt to capture credentials
+        entered into a fake login form. Never enter your real
+        password into an unfamiliar website.
       </div>
 
       <div class="message success" id="success">
         ✅ <strong>Training completed.</strong><br><br>
-        This simulator did not save, transmit, or reveal your password.
-        The submission was processed locally for demonstration purposes.
+        This simulator did not save, transmit, or reveal your
+        password. The demonstration was processed locally.
       </div>
 
-      <div class="tips">
-
-        <h3>🔎 How to spot phishing</h3>
-
-        <ul>
-          <li>Check the website address carefully.</li>
-          <li>Be suspicious of unexpected login requests.</li>
-          <li>Never share passwords through messages or unknown websites.</li>
-          <li>Look for unusual spelling, links, or urgent requests.</li>
-          <li>Use multi-factor authentication whenever possible.</li>
-        </ul>
-
+      <div class="completion" id="completion">
+        <div class="completion-icon">🏆</div>
+        <h2>Module Complete</h2>
+        <p class="text">
+          You completed the credential-safety simulation.
+        </p>
       </div>
 
     </div>
 
+    <div class="card">
+
+      <span class="badge">MODULE 02</span>
+
+      <h2>How to Spot Phishing</h2>
+
+      <div class="tip">
+        🔗 <strong>Check the URL:</strong>
+        Look carefully for strange or misspelled domains.
+      </div>
+
+      <div class="tip">
+        🚨 <strong>Watch for urgency:</strong>
+        Be careful when a message pressures you to act immediately.
+      </div>
+
+      <div class="tip">
+        🔑 <strong>Protect passwords:</strong>
+        Never enter your real password into an unfamiliar website.
+      </div>
+
+      <div class="tip">
+        📱 <strong>Use MFA:</strong>
+        Multi-factor authentication adds another layer of protection.
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <span class="badge">SAFETY NOTICE</span>
+
+      <h2>Training Rules</h2>
+
+      <p class="text">
+        This website is an educational simulator. Use fictional
+        usernames and passwords only. No credential information
+        is transmitted to a server or stored by this page.
+      </p>
+
+    </div>
+
     <div class="footer">
-      LOCAL SECURITY TRAINING • USE DUMMY CREDENTIALS ONLY
+      LOCAL SECURITY TRAINING • DUMMY CREDENTIALS ONLY
     </div>
 
   </div>
@@ -253,6 +361,9 @@
     const form = document.getElementById("trainingForm");
     const warning = document.getElementById("warning");
     const success = document.getElementById("success");
+    const completion = document.getElementById("completion");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
 
     form.addEventListener("submit", function(event) {
       event.preventDefault();
@@ -266,6 +377,10 @@
 
       warning.style.display = "block";
       success.style.display = "block";
+      completion.style.display = "block";
+
+      progressBar.style.width = "100%";
+      progressText.textContent = "100%";
 
       form.reset();
     });
