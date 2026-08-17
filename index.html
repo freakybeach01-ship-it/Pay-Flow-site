@@ -514,7 +514,7 @@
 
         <div class="hero-buttons">
 
-          <button class="primary-btn" onclick="openModal()">
+          <button class="primary-btn" onclick="openAuth()">
             Get Started
           </button>
 
@@ -801,7 +801,96 @@
     </div>
 
   </div>
+<!-- AUTHENTICATION -->
 
+<div class="modal" id="authModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2 id="authTitle">Create Account</h2>
+
+      <button class="close" onclick="closeAuth()">
+        ×
+      </button>
+    </div>
+
+    <div id="signupForm">
+
+      <label for="signupName">Full Name</label>
+      <input
+        id="signupName"
+        type="text"
+        placeholder="Enter your full name"
+      >
+
+      <label for="signupEmail">Email</label>
+      <input
+        id="signupEmail"
+        type="email"
+        placeholder="Enter your email"
+      >
+
+      <label for="signupPassword">Password</label>
+      <input
+        id="signupPassword"
+        type="password"
+        placeholder="Create a password"
+      >
+
+      <button class="full-btn" onclick="signUp()">
+        Create Account
+      </button>
+
+      <p style="margin-top:15px;text-align:center;">
+        Already have an account?
+        <button
+          onclick="showLogin()"
+          style="border:0;background:none;color:#2563eb;font-weight:700;cursor:pointer;"
+        >
+          Login
+        </button>
+      </p>
+
+    </div>
+
+    <div id="loginForm" style="display:none;">
+
+      <label for="loginEmail">Email</label>
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Enter your email"
+      >
+
+      <label for="loginPassword">Password</label>
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Enter your password"
+      >
+
+      <button class="full-btn" onclick="login()">
+        Login
+      </button>
+
+      <p style="margin-top:15px;text-align:center;">
+        Don't have an account?
+        <button
+          onclick="showSignup()"
+          style="border:0;background:none;color:#2563eb;font-weight:700;cursor:pointer;"
+        >
+          Sign Up
+        </button>
+      </p>
+
+    </div>
+
+    <div class="notice" id="authNotice"></div>
+
+  </div>
+
+</div>
 
   <!-- FOOTER -->
 
@@ -935,6 +1024,105 @@
     };
 
   </script>
+// AUTHENTICATION
 
+function openAuth() {
+  document.getElementById("authModal").style.display = "flex";
+  showSignup();
+}
+
+function closeAuth() {
+  document.getElementById("authModal").style.display = "none";
+}
+
+function showSignup() {
+  document.getElementById("signupForm").style.display = "block";
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("authTitle").textContent = "Create Account";
+  document.getElementById("authNotice").style.display = "none";
+}
+
+function showLogin() {
+  document.getElementById("signupForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("authTitle").textContent = "Login";
+  document.getElementById("authNotice").style.display = "none";
+}
+
+async function signUp() {
+
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  const notice = document.getElementById("authNotice");
+
+  if (!name || !email || !password) {
+    notice.style.display = "block";
+    notice.textContent = "Please complete all fields.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: {
+        full_name: name
+      }
+    }
+  });
+
+  notice.style.display = "block";
+
+  if (error) {
+    notice.textContent = error.message;
+    return;
+  }
+
+  notice.textContent =
+    "Account created successfully. Check your email if verification is required.";
+}
+
+async function login() {
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const notice = document.getElementById("authNotice");
+
+  if (!email || !password) {
+    notice.style.display = "block";
+    notice.textContent = "Please enter your email and password.";
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  notice.style.display = "block";
+
+  if (error) {
+    notice.textContent = error.message;
+    return;
+  }
+
+  notice.textContent = "Login successful!";
+}
+  <!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://dgkmhybtluyicwmonsej.supabase.co/rest/v1/";
+  const SUPABASE_KEY = "sb_publishable__U9qjYnmLjGKPmJNUQzppg_CW_58JfU";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
 </body>
   </html>
