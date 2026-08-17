@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PayFlow - Simple, secure digital payments and money management.">
+  <meta name="description" content="PayFlow - Simple and secure digital payments.">
   <title>PayFlow | Digital Payments</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -19,16 +21,13 @@
       color: #111827;
     }
 
-    button,
-    input {
+    button, input {
       font: inherit;
     }
 
     button {
       cursor: pointer;
     }
-
-    /* NAVBAR */
 
     .navbar {
       background: #111827;
@@ -67,16 +66,6 @@
       text-decoration: none;
       font-size: 14px;
     }
-
-    .menu-btn {
-      display: none;
-      background: transparent;
-      border: 0;
-      color: white;
-      font-size: 25px;
-    }
-
-    /* HERO */
 
     .hero {
       background: linear-gradient(135deg, #111827, #1e3a8a);
@@ -134,12 +123,17 @@
       color: #111827;
     }
 
-    .hero-card {
+    .hero-card,
+    .feature,
+    .panel {
       background: white;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .hero-card {
       color: #111827;
-      border-radius: 20px;
       padding: 25px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.25);
     }
 
     .balance-label {
@@ -159,8 +153,6 @@
       padding: 15px 0;
       border-top: 1px solid #e5e7eb;
     }
-
-    /* SECTIONS */
 
     section {
       padding: 65px 20px;
@@ -185,8 +177,6 @@
       color: #6b7280;
     }
 
-    /* FEATURES */
-
     .features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -194,10 +184,7 @@
     }
 
     .feature {
-      background: white;
       padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
     }
 
     .feature-icon {
@@ -214,8 +201,6 @@
       line-height: 1.6;
     }
 
-    /* DASHBOARD */
-
     .dashboard {
       background: #eef2ff;
     }
@@ -227,10 +212,7 @@
     }
 
     .panel {
-      background: white;
-      border-radius: 16px;
       padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.05);
     }
 
     .panel h3 {
@@ -260,44 +242,6 @@
       color: #6b7280;
     }
 
-    /* TRANSACTIONS */
-
-    .transaction {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .transaction:last-child {
-      border-bottom: 0;
-    }
-
-    .transaction-name {
-      font-weight: 700;
-    }
-
-    .transaction-date {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 4px;
-    }
-
-    .amount {
-      font-weight: 800;
-    }
-
-    .positive {
-      color: #16a34a;
-    }
-
-    .negative {
-      color: #dc2626;
-    }
-
-    /* SECURITY */
-
     .security-box {
       background: #111827;
       color: white;
@@ -306,7 +250,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 30px;
-      align-items: center;
     }
 
     .security-box p {
@@ -324,8 +267,6 @@
       border-bottom: 1px solid #374151;
     }
 
-    /* MODAL */
-
     .modal {
       display: none;
       position: fixed;
@@ -341,6 +282,8 @@
       background: white;
       width: 100%;
       max-width: 430px;
+      max-height: 90vh;
+      overflow-y: auto;
       border-radius: 18px;
       padding: 25px;
     }
@@ -387,16 +330,38 @@
       font-weight: 700;
     }
 
+    .switch-btn {
+      border: 0;
+      background: none;
+      color: #2563eb;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .notice {
       display: none;
       margin-top: 15px;
       padding: 12px;
-      background: #dcfce7;
-      color: #166534;
       border-radius: 8px;
+      line-height: 1.5;
     }
 
-    /* FOOTER */
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .copyright {
+      margin-top: 30px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+    }
 
     footer {
       background: #111827;
@@ -418,17 +383,7 @@
       margin-top: 8px;
     }
 
-    .copyright {
-      margin-top: 30px;
-      text-align: center;
-      color: #6b7280;
-      font-size: 13px;
-    }
-
-    /* MOBILE */
-
     @media (max-width: 800px) {
-
       .hero-inner,
       .dashboard-grid,
       .security-box {
@@ -446,14 +401,9 @@
       .nav-links {
         display: none;
       }
-
-      .menu-btn {
-        display: block;
-      }
     }
 
     @media (max-width: 500px) {
-
       .action-grid {
         grid-template-columns: 1fr;
       }
@@ -471,14 +421,9 @@
 
 <body>
 
-  <!-- NAVIGATION -->
-
   <nav class="navbar">
     <div class="nav-inner">
-
-      <div class="logo">
-        Pay<span>Flow</span>
-      </div>
+      <div class="logo">Pay<span>Flow</span></div>
 
       <div class="nav-links">
         <a href="#home">Home</a>
@@ -486,25 +431,14 @@
         <a href="#dashboard">Dashboard</a>
         <a href="#security">Security</a>
       </div>
-
-      <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
     </div>
   </nav>
 
-
-  <!-- HERO -->
-
   <section class="hero" id="home">
-
     <div class="hero-inner">
 
       <div>
-
-        <h1>
-          Payments made
-          <span>simple.</span>
-        </h1>
+        <h1>Payments made <span>simple.</span></h1>
 
         <p>
           PayFlow is a modern digital payment platform designed
@@ -513,7 +447,6 @@
         </p>
 
         <div class="hero-buttons">
-
           <button class="primary-btn" onclick="openAuth()">
             Get Started
           </button>
@@ -523,25 +456,16 @@
               Explore Features
             </button>
           </a>
-
         </div>
-
       </div>
 
-
       <div class="hero-card">
-
-        <div class="balance-label">
-          Available Balance
-        </div>
-
-        <div class="balance">
-          ₦0.00
-        </div>
+        <div class="balance-label">Available Balance</div>
+        <div class="balance" id="heroBalance">₦0.00</div>
 
         <div class="mini-row">
           <span>Wallet Status</span>
-          <strong>Ready</strong>
+          <strong id="walletStatus">Ready</strong>
         </div>
 
         <div class="mini-row">
@@ -553,18 +477,12 @@
           <span>Security</span>
           <strong>Protected</strong>
         </div>
-
       </div>
 
     </div>
-
   </section>
 
-
-  <!-- FEATURES -->
-
   <section id="features">
-
     <div class="container">
 
       <div class="section-title">
@@ -578,8 +496,8 @@
           <div class="feature-icon">💸</div>
           <h3>Send Money</h3>
           <p>
-            Send money to supported recipients quickly
-            through the PayFlow platform.
+            Send money to supported recipients through
+            the PayFlow platform.
           </p>
         </div>
 
@@ -596,22 +514,16 @@
           <div class="feature-icon">🔒</div>
           <h3>Security</h3>
           <p>
-            Security-first design helps protect your
-            account and payment information.
+            Security-first design helps protect your account
+            and payment information.
           </p>
         </div>
 
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- DASHBOARD -->
-
   <section class="dashboard" id="dashboard">
-
     <div class="container">
 
       <div class="section-title">
@@ -622,312 +534,188 @@
       <div class="dashboard-grid">
 
         <div class="panel">
+          <h3>Account</h3>
 
-          <h3>Quick Actions</h3>
+          <p id="accountMessage">
+            Please sign in to access your account.
+          </p>
 
-          <div class="action-grid">
+          <button
+            class="full-btn"
+            id="dashboardAuthButton"
+            onclick="openAuth()"
+          >
+            Sign Up / Login
+          </button>
 
-            <button class="action" onclick="openModal()">
-              <strong>💸 Send Money</strong>
-              <small>Start a payment</small>
-            </button>
-
-            <button class="action" onclick="showNotice()">
-              <strong>➕ Add Money</strong>
-              <small>Fund your wallet</small>
-            </button>
-
-            <button class="action" onclick="showNotice()">
-              <strong>📊 Transactions</strong>
-              <small>View activity</small>
-            </button>
-
-            <button class="action" onclick="showNotice()">
-              <strong>⚙️ Settings</strong>
-              <small>Manage account</small>
-            </button>
-
-          </div>
-
-          <div class="notice" id="dashboardNotice">
-            This feature will be connected to the secure backend
-            in the next development stage.
-          </div>
-
+          <button
+            class="full-btn"
+            id="logoutButton"
+            onclick="logout()"
+            style="display:none;background:#dc2626;"
+          >
+            Logout
+          </button>
         </div>
 
-
         <div class="panel">
-
           <h3>Recent Transactions</h3>
 
-          <div class="transaction">
+          <p style="color:#6b7280;">
+            No transactions yet.
+          </p>
 
-            <div>
-              <div class="transaction-name">
-                PayFlow Wallet
-              </div>
-
-              <div class="transaction-date">
-                No transactions yet
-              </div>
-            </div>
-
-            <div class="amount">
-              ₦0.00
-            </div>
-
+          <div style="margin-top:15px;">
+            <strong>Account Status:</strong>
+            <span id="accountStatus">Not signed in</span>
           </div>
-
-          <div class="transaction">
-
-            <div>
-              <div class="transaction-name">
-                Account Status
-              </div>
-
-              <div class="transaction-date">
-                System
-              </div>
-            </div>
-
-            <div class="amount positive">
-              Active
-            </div>
-
-          </div>
-
         </div>
 
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- SECURITY -->
-
   <section id="security">
-
     <div class="container">
 
       <div class="security-box">
 
         <div>
-
-          <h2>
-            Security comes first 🔐
-          </h2>
+          <h2>Security comes first 🔐</h2>
 
           <p>
             PayFlow is being designed with security and
             responsible handling of payment information
             as core principles.
           </p>
-
         </div>
 
         <ul class="security-list">
-
           <li>✓ Secure account architecture</li>
-          <li>✓ No password storage in this frontend</li>
+          <li>✓ Supabase authentication</li>
           <li>✓ Transaction verification</li>
           <li>✓ Fraud-awareness features</li>
-
         </ul>
 
       </div>
 
     </div>
-
   </section>
 
+  <!-- AUTHENTICATION MODAL -->
 
-  <!-- MODAL -->
-
-  <div class="modal" id="paymentModal">
+  <div class="modal" id="authModal">
 
     <div class="modal-box">
 
       <div class="modal-header">
+        <h2 id="authTitle">Create Account</h2>
 
-        <h2>Start a Payment</h2>
-
-        <button class="close" onclick="closeModal()">
+        <button class="close" onclick="closeAuth()">
           ×
         </button>
-
       </div>
 
-      <p style="color:#6b7280; line-height:1.5;">
-        This is currently a frontend demonstration.
-        No money will be transferred.
-      </p>
+      <!-- SIGN UP -->
 
-      <label for="recipient">
-        Recipient
-      </label>
+      <div id="signupForm">
 
-      <input
-        id="recipient"
-        type="text"
-        placeholder="Enter recipient"
-        autocomplete="off"
-      >
-
-      <label for="amount">
-        Amount (₦)
-      </label>
-
-      <input
-        id="amount"
-        type="number"
-        min="1"
-        placeholder="Enter amount"
-      >
-
-      <button
-        class="full-btn"
-        onclick="simulatePayment()"
-      >
-        Continue
-      </button>
-
-      <div class="notice" id="paymentNotice">
-        Payment simulation complete. No transaction was processed.
-      </div>
-
-    </div>
-
-  </div>
-<!-- AUTHENTICATION -->
-
-<div class="modal" id="authModal">
-
-  <div class="modal-box">
-
-    <div class="modal-header">
-      <h2 id="authTitle">Create Account</h2>
-
-      <button class="close" onclick="closeAuth()">
-        ×
-      </button>
-    </div>
-
-    <div id="signupForm">
-
-      <label for="signupName">Full Name</label>
-      <input
-        id="signupName"
-        type="text"
-        placeholder="Enter your full name"
-      >
-
-      <label for="signupEmail">Email</label>
-      <input
-        id="signupEmail"
-        type="email"
-        placeholder="Enter your email"
-      >
-
-      <label for="signupPassword">Password</label>
-      <input
-        id="signupPassword"
-        type="password"
-        placeholder="Create a password"
-      >
-
-      <button class="full-btn" onclick="signUp()">
-        Create Account
-      </button>
-
-      <p style="margin-top:15px;text-align:center;">
-        Already have an account?
-        <button
-          onclick="showLogin()"
-          style="border:0;background:none;color:#2563eb;font-weight:700;cursor:pointer;"
+        <label for="signupName">Full Name</label>
+        <input
+          id="signupName"
+          type="text"
+          placeholder="Enter your full name"
+          autocomplete="name"
         >
+
+        <label for="signupEmail">Email</label>
+        <input
+          id="signupEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label for="signupPassword">Password</label>
+        <input
+          id="signupPassword"
+          type="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+        >
+
+        <button class="full-btn" onclick="signUp()">
+          Create Account
+        </button>
+
+        <p style="margin-top:15px;text-align:center;">
+          Already have an account?
+          <button class="switch-btn" onclick="showLogin()">
+            Login
+          </button>
+        </p>
+
+      </div>
+
+      <!-- LOGIN -->
+
+      <div id="loginForm" style="display:none;">
+
+        <label for="loginEmail">Email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label for="loginPassword">Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        >
+
+        <button class="full-btn" onclick="login()">
           Login
         </button>
-      </p>
+
+        <p style="margin-top:15px;text-align:center;">
+          Don't have an account?
+          <button class="switch-btn" onclick="showSignup()">
+            Sign Up
+          </button>
+        </p>
+
+      </div>
+
+      <div class="notice" id="authNotice"></div>
 
     </div>
-
-    <div id="loginForm" style="display:none;">
-
-      <label for="loginEmail">Email</label>
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="Enter your email"
-      >
-
-      <label for="loginPassword">Password</label>
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Enter your password"
-      >
-
-      <button class="full-btn" onclick="login()">
-        Login
-      </button>
-
-      <p style="margin-top:15px;text-align:center;">
-        Don't have an account?
-        <button
-          onclick="showSignup()"
-          style="border:0;background:none;color:#2563eb;font-weight:700;cursor:pointer;"
-        >
-          Sign Up
-        </button>
-      </p>
-
-    </div>
-
-    <div class="notice" id="authNotice"></div>
-
   </div>
-
-</div>
-
-  <!-- FOOTER -->
 
   <footer>
 
     <div class="footer-inner">
 
       <div>
-
-        <div class="logo">
-          Pay<span>Flow</span>
-        </div>
-
-        <p>
-          Simple digital payment technology.
-        </p>
-
+        <div class="logo">Pay<span>Flow</span></div>
+        <p>Simple digital payment technology.</p>
       </div>
 
       <div>
-
         <strong>Platform</strong>
-
         <p>Payments</p>
         <p>Wallet</p>
         <p>Security</p>
-
       </div>
 
       <div>
-
         <strong>Support</strong>
-
         <p>Help Center</p>
         <p>Contact</p>
         <p>Privacy</p>
-
       </div>
 
     </div>
@@ -938,191 +726,265 @@
 
   </footer>
 
-
   <script>
+    /*
+      =====================================================
+      SUPABASE CONNECTION
+      =====================================================
+      Replace ONLY these two values.
+    */
 
-    function openModal() {
-      document.getElementById("paymentModal").style.display = "flex";
+    const SUPABASE_URL = "https://dgkmhybtluyicwmonsej.supabase.co/rest/v1/";
+    const SUPABASE_KEY = "sb_publishable__U9qjYnmLjGKPmJNUQzppg_CW_58JfU";
+
+    const supabaseClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    /*
+      =====================================================
+      AUTHENTICATION
+      =====================================================
+    */
+
+    function openAuth() {
+      document.getElementById("authModal").style.display = "flex";
+      showSignup();
     }
 
-    function closeModal() {
-      document.getElementById("paymentModal").style.display = "none";
+    function closeAuth() {
+      document.getElementById("authModal").style.display = "none";
     }
 
-    function simulatePayment() {
+    function showSignup() {
+      document.getElementById("signupForm").style.display = "block";
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("authTitle").textContent = "Create Account";
 
-      const recipient =
-        document.getElementById("recipient").value.trim();
+      const notice = document.getElementById("authNotice");
+      notice.style.display = "none";
+    }
 
-      const amount =
-        document.getElementById("amount").value;
+    function showLogin() {
+      document.getElementById("signupForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("authTitle").textContent = "Login";
 
-      const notice =
-        document.getElementById("paymentNotice");
+      const notice = document.getElementById("authNotice");
+      notice.style.display = "none";
+    }
 
-      if (!recipient || !amount || Number(amount) <= 0) {
+    function showAuthMessage(message, type) {
+      const notice = document.getElementById("authNotice");
 
-        notice.style.display = "block";
+      notice.style.display = "block";
+      notice.className = "notice " + type;
+      notice.textContent = message;
+    }
 
-        notice.style.background = "#fef3c7";
-        notice.style.color = "#92400e";
+    async function signUp() {
 
-        notice.textContent =
-          "Please enter a recipient and a valid amount.";
+      const name =
+        document.getElementById("signupName").value.trim();
 
+      const email =
+        document.getElementById("signupEmail").value.trim();
+
+      const password =
+        document.getElementById("signupPassword").value;
+
+      if (!name || !email || !password) {
+        showAuthMessage(
+          "Please complete all fields.",
+          "error"
+        );
         return;
       }
 
-      notice.style.display = "block";
-
-      notice.style.background = "#dcfce7";
-      notice.style.color = "#166534";
-
-      notice.textContent =
-        "Payment simulation complete. No transaction was processed.";
-
-    }
-
-    function showNotice() {
-
-      const notice =
-        document.getElementById("dashboardNotice");
-
-      notice.style.display = "block";
-
-    }
-
-    function toggleMenu() {
-
-      const links =
-        document.querySelector(".nav-links");
-
-      if (links.style.display === "flex") {
-        links.style.display = "none";
-      } else {
-        links.style.display = "flex";
-        links.style.flexDirection = "column";
-        links.style.position = "absolute";
-        links.style.top = "65px";
-        links.style.right = "20px";
-        links.style.background = "#111827";
-        links.style.padding = "20px";
-        links.style.borderRadius = "10px";
+      if (password.length < 6) {
+        showAuthMessage(
+          "Password must contain at least 6 characters.",
+          "error"
+        );
+        return;
       }
 
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name
+            }
+          }
+        });
+
+      if (error) {
+        showAuthMessage(error.message, "error");
+        return;
+      }
+
+      if (data.user && !data.session) {
+        showAuthMessage(
+          "Account created. Please check your email to verify your account.",
+          "success"
+        );
+      } else {
+        showAuthMessage(
+          "Account created successfully!",
+          "success"
+        );
+
+        updateAccountUI(data.user);
+      }
     }
 
-    window.onclick = function(event) {
+
+    async function login() {
+
+      const email =
+        document.getElementById("loginEmail").value.trim();
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        showAuthMessage(
+          "Please enter your email and password.",
+          "error"
+        );
+        return;
+      }
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+        showAuthMessage(error.message, "error");
+        return;
+      }
+
+      showAuthMessage(
+        "Login successful!",
+        "success"
+      );
+
+      updateAccountUI(data.user);
+
+      setTimeout(() => {
+        closeAuth();
+      }, 1000);
+    }
+
+
+    async function logout() {
+
+      const { error } =
+        await supabaseClient.auth.signOut();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      updateAccountUI(null);
+    }
+
+
+    function updateAccountUI(user) {
+
+      const message =
+        document.getElementById("accountMessage");
+
+      const status =
+        document.getElementById("accountStatus");
+
+      const authButton =
+        document.getElementById("dashboardAuthButton");
+
+      const logoutButton =
+        document.getElementById("logoutButton");
+
+      const walletStatus =
+        document.getElementById("walletStatus");
+
+      if (user) {
+
+        const name =
+          user.user_metadata?.full_name ||
+          user.email;
+
+        message.textContent =
+          "Welcome, " + name + "!";
+
+        status.textContent = "Signed in";
+
+        authButton.style.display = "none";
+        logoutButton.style.display = "block";
+
+        walletStatus.textContent = "Active";
+
+      } else {
+
+        message.textContent =
+          "Please sign in to access your account.";
+
+        status.textContent =
+          "Not signed in";
+
+        authButton.style.display =
+          "block";
+
+        logoutButton.style.display =
+          "none";
+
+        walletStatus.textContent =
+          "Ready";
+      }
+    }
+
+
+    async function checkSession() {
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
+      updateAccountUI(
+        data.session ? data.session.user : null
+      );
+    }
+
+
+    supabaseClient.auth.onAuthStateChange(
+      function(event, session) {
+
+        updateAccountUI(
+          session ? session.user : null
+        );
+      }
+    );
+
+
+    window.addEventListener("click", function(event) {
 
       const modal =
-        document.getElementById("paymentModal");
+        document.getElementById("authModal");
 
       if (event.target === modal) {
-        closeModal();
+        closeAuth();
       }
 
-    };
-
-  </script>
-// AUTHENTICATION
-
-function openAuth() {
-  document.getElementById("authModal").style.display = "flex";
-  showSignup();
-}
-
-function closeAuth() {
-  document.getElementById("authModal").style.display = "none";
-}
-
-function showSignup() {
-  document.getElementById("signupForm").style.display = "block";
-  document.getElementById("loginForm").style.display = "none";
-  document.getElementById("authTitle").textContent = "Create Account";
-  document.getElementById("authNotice").style.display = "none";
-}
-
-function showLogin() {
-  document.getElementById("signupForm").style.display = "none";
-  document.getElementById("loginForm").style.display = "block";
-  document.getElementById("authTitle").textContent = "Login";
-  document.getElementById("authNotice").style.display = "none";
-}
-
-async function signUp() {
-
-  const name = document.getElementById("signupName").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value;
-
-  const notice = document.getElementById("authNotice");
-
-  if (!name || !email || !password) {
-    notice.style.display = "block";
-    notice.textContent = "Please complete all fields.";
-    return;
-  }
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: {
-        full_name: name
-      }
-    }
-  });
-
-  notice.style.display = "block";
-
-  if (error) {
-    notice.textContent = error.message;
-    return;
-  }
-
-  notice.textContent =
-    "Account created successfully. Check your email if verification is required.";
-}
-
-async function login() {
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  const notice = document.getElementById("authNotice");
-
-  if (!email || !password) {
-    notice.style.display = "block";
-    notice.textContent = "Please enter your email and password.";
-    return;
-  }
-
-  const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
     });
 
-  notice.style.display = "block";
 
-  if (error) {
-    notice.textContent = error.message;
-    return;
-  }
+    checkSession();
+  </script>
 
-  notice.textContent = "Login successful!";
-}
-  <!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  const SUPABASE_URL = "https://dgkmhybtluyicwmonsej.supabase.co/rest/v1/";
-  const SUPABASE_KEY = "sb_publishable__U9qjYnmLjGKPmJNUQzppg_CW_58JfU";
-
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-</script>
 </body>
-  </html>
+            </html>
