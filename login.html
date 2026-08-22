@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PayFlow - Login or create your account.">
+  <title>PayFlow | Login</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #3b82f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .auth-card h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 15px 0 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      outline: none;
+      font: inherit;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .full-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: 0;
+      border-radius: 9px;
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      color: #6b7280;
+    }
+
+    .switch button {
+      border: 0;
+      background: none;
+      color: #2563eb;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      padding: 35px 20px;
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    footer p {
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links {
+        gap: 10px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+
+      <div class="logo">
+        Pay<span>Flow</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="payments.html">Payments</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="security.html">Security</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <div class="auth-card">
+
+      <h1 id="authTitle">Create Account</h1>
+
+      <p class="subtitle">
+        Sign up or login to your PayFlow account.
+      </p>
+
+      <div id="signupForm">
+
+        <label for="signupName">Full Name</label>
+
+        <input
+          id="signupName"
+          type="text"
+          placeholder="Enter your full name"
+          autocomplete="name"
+        >
+
+        <label for="signupEmail">Email</label>
+
+        <input
+          id="signupEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label for="signupPassword">Password</label>
+
+        <input
+          id="signupPassword"
+          type="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+        >
+
+        <button class="full-btn" onclick="signUp()">
+          Create Account
+        </button>
+
+        <p class="switch">
+          Already have an account?
+          <button onclick="showLogin()">Login</button>
+        </p>
+
+      </div>
+
+      <div id="loginForm" style="display:none;">
+
+        <label for="loginEmail">Email</label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label for="loginPassword">Password</label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        >
+
+        <button class="full-btn" onclick="login()">
+          Login
+        </button>
+
+        <p class="switch">
+          Don't have an account?
+          <button onclick="showSignup()">Sign Up</button>
+        </p>
+
+      </div>
+
+      <div class="notice" id="authNotice"></div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="logo">
+      Pay<span>Flow</span>
+    </div>
+
+    <p>Simple digital payment technology.</p>
+
+    <p style="margin-top:20px;">
+      © 2026 PayFlow. All rights reserved.
+    </p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL =
+      "https://dgkmhybtluyicwmonsej.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable__U9qjYnmLjGKPmJNUQzppg_CW_58JfU";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    function showSignup() {
+      document.getElementById("signupForm").style.display = "block";
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("authTitle").textContent = "Create Account";
+      document.getElementById("authNotice").style.display = "none";
+    }
+
+    function showLogin() {
+      document.getElementById("signupForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("authTitle").textContent = "Login";
+      document.getElementById("authNotice").style.display = "none";
+    }
+
+    function showAuthMessage(message, type) {
+      const notice =
+        document.getElementById("authNotice");
+
+      notice.style.display = "block";
+      notice.className = "notice " + type;
+      notice.textContent = message;
+    }
+
+    async function signUp() {
+
+      const name =
+        document.getElementById("signupName").value.trim();
+
+      const email =
+        document.getElementById("signupEmail").value.trim();
+
+      const password =
+        document.getElementById("signupPassword").value;
+
+      if (!name || !email || !password) {
+        showAuthMessage(
+          "Please complete all fields.",
+          "error"
+        );
+        return;
+      }
+
+      if (password.length < 6) {
+        showAuthMessage(
+          "Password must contain at least 6 characters.",
+          "error"
+        );
+        return;
+      }
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name
+            }
+          }
+        });
+
+      if (error) {
+        showAuthMessage(
+          error.message,
+          "error"
+        );
+        return;
+      }
+
+      if (data.user && !data.session) {
+        showAuthMessage(
+          "Account created. Please check your email to verify your account.",
+          "success"
+        );
+      } else {
+        showAuthMessage(
+          "Account created successfully!",
+          "success"
+        );
+
+        setTimeout(() => {
+          window.location.href =
+            "dashboard.html";
+        }, 1000);
+      }
+    }
+
+    async function login() {
+
+      const email =
+        document.getElementById("loginEmail").value.trim();
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        showAuthMessage(
+          "Please enter your email and password.",
+          "error"
+        );
+        return;
+      }
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+        showAuthMessage(
+          error.message,
+          "error"
+        );
+        return;
+      }
+
+      showAuthMessage(
+        "Login successful!",
+        "success"
+      );
+
+      setTimeout(() => {
+        window.location.href =
+          "dashboard.html";
+      }, 1000);
+    }
+  </script>
+
+</body>
+          </html>
