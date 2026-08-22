@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PayFlow Transactions">
+  <title>PayFlow | Transactions</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #3b82f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .title h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .title p {
+      color: #6b7280;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: #f9fafb;
+      font-size: 14px;
+    }
+
+    td {
+      color: #374151;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      padding: 40px 20px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    footer p {
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        gap: 8px;
+      }
+
+      .nav-links a {
+        font-size: 11px;
+      }
+
+      .title h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+
+      <div class="logo">
+        Pay<span>Flow</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="payments.html">Payments</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="security.html">Security</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <div class="title">
+      <h1>Transactions</h1>
+      <p>
+        View your PayFlow payment activity.
+      </p>
+    </div>
+
+    <div class="card">
+
+      <div class="empty">
+        <h2>No transactions yet</h2>
+
+        <p style="margin-top:10px;">
+          Your payment history will appear here
+          when transactions are available.
+        </p>
+      </div>
+
+      <table style="display:none;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Recipient</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>₦0.00</td>
+            <td>
+              <span class="status">
+                Pending
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </main>
+
+  <footer>
+
+    <div class="logo">
+      Pay<span>Flow</span>
+    </div>
+
+    <p>
+      Simple digital payment technology.
+    </p>
+
+    <p style="margin-top:20px;">
+      © 2026 PayFlow. All rights reserved.
+    </p>
+
+  </footer>
+
+</body>
+  </html>
