@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PayFlow - Payments">
+  <title>PayFlow | Payments</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #3b82f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .title h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .title p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 15px 0 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font: inherit;
+    }
+
+    .full-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: 0;
+      border-radius: 9px;
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .payment-info {
+      background: #eef2ff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .payment-info strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .payment-info p {
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      padding: 40px 20px;
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    .copyright {
+      margin-top: 30px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .title h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+
+      <div class="logo">
+        Pay<span>Flow</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="payments.html">Payments</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="security.html">Security</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <div class="title">
+      <h1>Payments</h1>
+      <p>
+        Send and manage your payments with PayFlow.
+      </p>
+    </div>
+
+    <div class="payment-grid">
+
+      <div class="card">
+
+        <h2>Send Money 💸</h2>
+
+        <label for="recipient">
+          Recipient
+        </label>
+
+        <input
+          id="recipient"
+          type="text"
+          placeholder="Enter recipient name or email"
+        >
+
+        <label for="amount">
+          Amount
+        </label>
+
+        <input
+          id="amount"
+          type="number"
+          placeholder="₦0.00"
+          min="0"
+        >
+
+        <label for="description">
+          Description
+        </label>
+
+        <input
+          id="description"
+          type="text"
+          placeholder="What is this payment for?"
+        >
+
+        <button
+          class="full-btn"
+          onclick="makePayment()"
+        >
+          Continue Payment
+        </button>
+
+        <p
+          id="paymentMessage"
+          style="margin-top:15px;text-align:center;"
+        ></p>
+
+      </div>
+
+      <div class="card">
+
+        <h2>Payment Information</h2>
+
+        <div class="payment-info">
+          <strong>💳 Digital Payments</strong>
+          <p>
+            Manage your payment activity from one
+            convenient PayFlow platform.
+          </p>
+        </div>
+
+        <div class="payment-info">
+          <strong>🔐 Security</strong>
+          <p>
+            Payment features are being designed with
+            account security in mind.
+          </p>
+        </div>
+
+        <div class="payment-info">
+          <strong>📊 Transactions</strong>
+          <p>
+            Your future payment history will appear
+            in the Transactions section.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+        <div class="logo">
+          Pay<span>Flow</span>
+        </div>
+        <p>Simple digital payment technology.</p>
+      </div>
+
+      <div>
+        <strong>Platform</strong>
+        <p>Payments</p>
+        <p>Wallet</p>
+        <p>Security</p>
+      </div>
+
+      <div>
+        <strong>Support</strong>
+        <p>Help Center</p>
+        <p>Contact</p>
+        <p>Privacy</p>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 PayFlow. All rights reserved.
+    </div>
+
+  </footer>
+
+  <script>
+    function makePayment() {
+
+      const recipient =
+        document.getElementById("recipient").value.trim();
+
+      const amount =
+        document.getElementById("amount").value;
+
+      const message =
+        document.getElementById("paymentMessage");
+
+      if (!recipient || !amount) {
+        message.textContent =
+          "Please enter a recipient and amount.";
+
+        message.style.color = "#dc2626";
+        return;
+      }
+
+      message.textContent =
+        "Payment feature is ready for account integration.";
+
+      message.style.color = "#166534";
+    }
+  </script>
+
+</body>
+  </html>
